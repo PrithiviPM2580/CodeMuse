@@ -11,7 +11,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "./ui/button";
 import { Sparkles } from "lucide-react";
 
-const ChatInputArea = () => {
+interface ChatInputAreaProps {
+  prompt: string;
+  setPrompt: (value: string) => void;
+  framework: string;
+  setFramework: (value: string) => void;
+  handleGenerateCode: () => void;
+}
+
+const ChatInputArea = ({
+  prompt,
+  setPrompt,
+  framework,
+  setFramework,
+  handleGenerateCode,
+}: ChatInputAreaProps) => {
   return (
     <div className="flex-1 chat-input-area flex flex-col gap-3 ">
       <h1 className="text-2xl font-bold">AI Component Generator</h1>
@@ -20,7 +34,7 @@ const ChatInputArea = () => {
       </p>
       <div className="flex flex-col gap-2">
         <h1 className="text-lg font-semibold">Framework</h1>
-        <Select>
+        <Select onValueChange={setFramework}>
           <SelectTrigger className="w-full max-w-80  inset-shadow-ppm">
             <SelectValue placeholder="Select a framework..." />
           </SelectTrigger>
@@ -43,12 +57,15 @@ const ChatInputArea = () => {
       <Textarea
         placeholder="Describe your component in detail and let AI code it for you..."
         className="text-area"
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
       />
       <div className="w-full flex items-center justify-between mt-3">
         <p className="text">Click the button to generate your component:</p>
         <Button
           className="btn outline-none! cursor-pointer transition-cubic"
           variant="secondary"
+          onClick={handleGenerateCode}
         >
           <Sparkles className="w-4 h-4 mr-2" />
           Generate

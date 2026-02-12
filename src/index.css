@@ -199,6 +199,11 @@
       inset -4px -4px 4px var(--color-greyLight-2),
       inset 4px 4px 4px var(--color-greyLight-1);
   }
+  .btn-click {
+    box-shadow:
+      inset -4px -4px 4px var(--color-greyLight-2),
+      inset 4px 4px 4px var(--color-greyLight-1);
+  }
   .transition-cubic {
     transition: box-shadow 0.3s linear;
   }
