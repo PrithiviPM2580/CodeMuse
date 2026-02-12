@@ -6,7 +6,7 @@ import {
   TvMinimalIcon,
 } from "lucide-react";
 import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
+import { useState, memo, useCallback } from "react";
 import { useTheme } from "./theme-provider";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
@@ -23,7 +23,7 @@ const ChatDisplay = ({ code, codeDisplay }: ChatDisplayProps) => {
   const [previewKey, setPreviewKey] = useState<number>(0);
   const { theme } = useTheme();
 
-  const copyCodeToClipboard = async () => {
+  const copyCodeToClipboard = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(code);
       toast.success("Code copied to clipboard!");
@@ -31,9 +31,9 @@ const ChatDisplay = ({ code, codeDisplay }: ChatDisplayProps) => {
       toast.error("Failed to copy code to clipboard.");
       console.error("Failed to copy code to clipboard:", error);
     }
-  };
+  }, [code]);
 
-  const downloadFile = () => {
+  const downloadFile = useCallback(() => {
     const fileName = "codemuse.html";
 
     const blob = new Blob([code], { type: "text/html" });
@@ -50,7 +50,7 @@ const ChatDisplay = ({ code, codeDisplay }: ChatDisplayProps) => {
 
     URL.revokeObjectURL(url);
     toast.success("File downloaded successfully!");
-  };
+  }, [code]);
 
   return (
     <div className="flex-1 chat-display overflow-hidden pb-10 lg:pb-40!">
@@ -149,4 +149,4 @@ const ChatDisplay = ({ code, codeDisplay }: ChatDisplayProps) => {
   );
 };
 
-export default ChatDisplay;
+export default memo(ChatDisplay);

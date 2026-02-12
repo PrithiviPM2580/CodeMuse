@@ -10,14 +10,14 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "./ui/button";
 import { Sparkles } from "lucide-react";
+import { memo } from "react";
 
 interface ChatInputAreaProps {
   prompt: string;
   setPrompt: (value: string) => void;
   framework: string;
   setFramework: (value: string) => void;
-
-  handleGenerateCode: () => void;
+  handleGenerateCode: (prompt: string, framework: string) => void;
 }
 
 const ChatInputArea = ({
@@ -66,7 +66,7 @@ const ChatInputArea = ({
         <Button
           className="btn outline-none! cursor-pointer transition-cubic"
           variant="secondary"
-          onClick={handleGenerateCode}
+          onClick={() => handleGenerateCode(prompt, framework)}
         >
           <Sparkles className="w-4 h-4 mr-2" />
           Generate
@@ -76,4 +76,4 @@ const ChatInputArea = ({
   );
 };
 
-export default ChatInputArea;
+export default memo(ChatInputArea);
