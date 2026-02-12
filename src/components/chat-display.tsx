@@ -10,14 +10,44 @@ import { useState } from "react";
 import { useTheme } from "./theme-provider";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const ChatDisplay = ({ code }: { code: string }) => {
   const [codeDisplay, setCodeDisplay] = useState<boolean>(true);
   const [tab, setTab] = useState<number>(0);
   const { theme } = useTheme();
 
+  const copyCodeToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      toast.success("Code copied to clipboard!");
+    } catch (error) {
+      toast.error("Failed to copy code to clipboard.");
+      console.error("Failed to copy code to clipboard:", error);
+    }
+  };
+
+  const downloadFile = () => {
+    const fileName = "codemuse.html";
+
+    const blob = new Blob([code], { type: "text/html" });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+    toast.success("File downloaded successfully!");
+  };
+
   return (
-    <div className="flex-1 chat-display overflow-hidden pb-40!">
+    <div className="flex-1 chat-display overflow-hidden pb-10 lg:pb-40!">
       {codeDisplay ? (
         <>
           <div className="w-full flex gap-4 items-center justify-between">
@@ -41,10 +71,16 @@ const ChatDisplay = ({ code }: { code: string }) => {
             <div className="flex gap-3">
               {tab === 0 ? (
                 <>
-                  <div className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic">
+                  <div
+                    className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic"
+                    onClick={copyCodeToClipboard}
+                  >
                     <CopyIcon className="w-5 h-5" />
                   </div>
-                  <div className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic">
+                  <div
+                    className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic"
+                    onClick={downloadFile}
+                  >
                     <ShareIcon className="w-5 h-5" />
                   </div>
                 </>
@@ -63,16 +99,17 @@ const ChatDisplay = ({ code }: { code: string }) => {
           {tab === 0 ? (
             <div className="mt-4 w-full h-full overflow-hidden chat-display-editor">
               <Editor
-                className="w-full h-full"
+                className="w-full h-[60vh] lg:h-full"
                 theme={theme === "light" ? "light" : "vs-dark"}
                 language="html"
                 value={code}
               />
             </div>
           ) : (
-            <div className="w-full h-full chat-display-editor mt-4">
-              <h1>Hello</h1>
-            </div>
+            <iframe
+              className="w-full h-full chat-display-editor py-0! bg-red-400 mt-4"
+              srcDoc={code}
+            ></iframe>
           )}
         </>
       ) : (
