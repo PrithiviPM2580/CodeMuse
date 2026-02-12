@@ -8,11 +8,13 @@ const Home = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [framework, setFramework] = useState<string>("");
   const [code, setCode] = useState<string>("");
+  const [codeDisplay, setCodeDisplay] = useState<boolean>(false);
 
   const handleGenerateCode = async () => {
     const response = await createCode(prompt, framework);
     const extractedCode = extractCode(response);
     setCode(extractedCode);
+    setCodeDisplay(true);
   };
 
   return (
@@ -24,7 +26,7 @@ const Home = () => {
         setFramework={setFramework}
         handleGenerateCode={handleGenerateCode}
       />
-      <ChatDisplay code={code} />
+      <ChatDisplay code={code} codeDisplay={codeDisplay} />
     </section>
   );
 };

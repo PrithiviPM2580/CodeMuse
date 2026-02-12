@@ -12,9 +12,15 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-const ChatDisplay = ({ code }: { code: string }) => {
-  const [codeDisplay, setCodeDisplay] = useState<boolean>(true);
+interface ChatDisplayProps {
+  code: string;
+  codeDisplay: boolean;
+}
+
+const ChatDisplay = ({ code, codeDisplay }: ChatDisplayProps) => {
   const [tab, setTab] = useState<number>(0);
+  const [isNewTab, setIsNewTab] = useState<boolean>(false);
+  const [previewKey, setPreviewKey] = useState<number>(0);
   const { theme } = useTheme();
 
   const copyCodeToClipboard = async () => {
@@ -86,10 +92,16 @@ const ChatDisplay = ({ code }: { code: string }) => {
                 </>
               ) : (
                 <>
-                  <div className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic">
+                  <div
+                    className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic"
+                    onClick={() => setIsNewTab(true)}
+                  >
                     <TvMinimalIcon className="w-5 h-5" />
                   </div>
-                  <div className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic">
+                  <div
+                    className="w-12 h-12 flex-center rounded-full inset-shadow-ppm circle-hover transition-cubic"
+                    onClick={() => setPreviewKey((prev) => prev + 1)}
+                  >
                     <RefreshCwIcon className="w-5 h-5" />
                   </div>
                 </>
@@ -107,7 +119,8 @@ const ChatDisplay = ({ code }: { code: string }) => {
             </div>
           ) : (
             <iframe
-              className="w-full h-full chat-display-editor py-0! bg-red-400 mt-4"
+              key={previewKey}
+              className="w-full h-full chat-display-editor py-0! mt-4"
               srcDoc={code}
             ></iframe>
           )}
@@ -123,6 +136,14 @@ const ChatDisplay = ({ code }: { code: string }) => {
             </p>
           </div>
         </div>
+      )}
+
+      {isNewTab && (
+        <iframe
+          key={previewKey}
+          srcDoc={code}
+          className="w-full h-full absolute top-0 left-0 z-10"
+        ></iframe>
       )}
     </div>
   );

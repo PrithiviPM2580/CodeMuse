@@ -16,6 +16,7 @@ interface ChatInputAreaProps {
   setPrompt: (value: string) => void;
   framework: string;
   setFramework: (value: string) => void;
+
   handleGenerateCode: () => void;
 }
 

@@ -159,20 +159,20 @@
     @apply flex items-center justify-center gap-5 px-3 py-3  inset-shadow-ppm  rounded-2xl;
   }
   .chat-input-area {
-    @apply w-full  lg:ml-20 lg:my-10 p-10 rounded-lg bg-card text-card-foreground inset-shadow-ppm;
+    @apply w-full  lg:ml-20 lg:my-10 p-10 rounded-lg  text-card-foreground inset-shadow-ppm;
     box-shadow:
       inset 4px 4px 4px var(--color-greyLight-2),
       inset -4px -4px 4px var(--color-greyLight-1);
   }
   .chat-display {
-    @apply w-full  lg:mr-20 lg:my-10 px-10 py-10 rounded-lg bg-card text-card-foreground inset-shadow-ppm;
+    @apply w-full  lg:mr-20 lg:my-10 px-10 py-10 rounded-lg  text-card-foreground inset-shadow-ppm;
     box-shadow:
       inset 4px 4px 4px var(--color-greyLight-2),
       inset -4px -4px 4px var(--color-greyLight-1);
   }
 
   .chat-display-editor {
-    @apply w-full px-1.5 py-6 rounded-lg bg-card text-card-foreground inset-shadow-ppm;
+    @apply w-full px-1.5 py-6 rounded-lg  text-card-foreground inset-shadow-ppm;
     box-shadow:
       inset 4px 4px 4px var(--color-greyLight-2),
       inset -4px -4px 4px var(--color-greyLight-1);
@@ -184,7 +184,7 @@
       inset -1px -1px 1px var(--color-greyLight-1);
   }
   .text-area {
-    @apply h-[40vh] w-full rounded-lg bg-card text-card-foreground inset-shadow-ppm;
+    @apply h-[40vh] w-full rounded-lg  text-card-foreground inset-shadow-ppm;
   }
   .btn {
     @apply px-12! py-6 rounded-lg inset-shadow-ppm;
